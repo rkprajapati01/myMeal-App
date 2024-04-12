@@ -1,11 +1,38 @@
-// const inputElement = document.getElementById('myInput');
+const inputElement = document.getElementById('mealNameInput');
 
-// inputElement.addEventListener('input', function (event) {
-//     // Call your function here
-//     myFunction(this.value);
-// });
+inputElement.addEventListener('input', function (event) {
+    getMealData(this.value);
+});
 
-// function myFunction(value) {
-//     // Your function logic here
-//     console.log(value);
-// }
+
+function getMealData(refrenceText) {
+    let mealData = fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${refrenceText}`);
+    mealData.then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+        .then(data => {
+            console.log(data.meals[0]);
+            mealCardContainerEl.textContent = "";
+            data.meals.forEach(meal => {
+                createMealCard(meal)
+            });
+
+        })
+}
+
+let mealCardContainerEl = document.getElementById('mealCardContainer');
+
+function createMealCard(mealData) {
+    let mealCardEl = document.createElement('div');
+    mealCardEl.style.backgroundImage = `url(${mealData.strMealThumb})`;
+    mealCardEl.classList.add('mealCard');
+    let mealNameEl = document.createElement('p');
+    mealNameEl.textContent = `${mealData.strMeal}`;
+    let favBtnEl = document.createElement('input')
+    favBtnEl.setAttribute('type', 'button');
+    mealCardEl.append(mealNameEl, favBtnEl);
+    mealCardContainerEl.appendChild(mealCardEl);
+}   
