@@ -1,12 +1,33 @@
 let favoriteList = [];
 
+
+const searchTextEl = document.querySelector('.searchText');
+const resultCountEl = document.querySelector('.resultCount');
 const inputElement = document.getElementById('mealNameInput');
 
-inputElement.addEventListener('input', function (event) {
-    if (this.value !== "") {
-        getMealData(this.value);
+function debounce(fn, delay) {
+    let timer;
+    return (...arg) => {
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+            fn(...arg);
+        }, delay);
     }
-});
+}
+
+function getResponse(event) {
+    let value = event.target.value;
+    mealCardContainerEl.textContent = "";
+    searchTextEl.textContent = value;
+    if (value !== "") {
+        getMealData(value);
+    }
+}
+
+const debounced = debounce(getResponse, 1000);
+
+inputElement.addEventListener('input', debounced);
 
 
 
@@ -16,14 +37,20 @@ function getMealData(refrenceText) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+
         return response.json();
     })
         .then(data => {
-            // console.log(data.meals[0]);
-            mealCardContainerEl.textContent = "";
-            data.meals.forEach(meal => {
-                createMealCard(meal)
-            });
+            console.log(data);
+
+            if (data.meals !== null) {
+                resultCountEl.textContent = data.meals.length;
+                data.meals.forEach(meal => {
+                    createMealCard(meal)
+                });
+            } else {
+                resultCountEl.textContent = 0;
+            }
 
         })
 }
@@ -31,11 +58,9 @@ function getMealData(refrenceText) {
 let mealCardContainerEl = document.getElementById('mealCardContainer');
 
 function createMealCard(mealData) {
-    console.log(mealData);
     let mealCardEl = document.createElement('div');
     mealCardEl.classList.add('mealCard');
     let mealThumbEl = document.createElement('img');
-    console.log(mealData.strMealThumb);
     mealThumbEl.setAttribute('src', `${mealData.strMealThumb}`);
     mealThumbEl.classList.add('mealThumb');
     let mealDescEl = document.createElement('div');
@@ -48,7 +73,6 @@ function createMealCard(mealData) {
 
     mealCardEl.append(mealThumbEl, mealDescEl);
     mealCardContainerEl.appendChild(mealCardEl);
-    console.log(mealCardEl);
 }
 
 function createFavButton() {
