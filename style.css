@@ -20,7 +20,6 @@ nav {
     padding-right: 2%;
     border: 1px solid black;
     background-color: white;
-    margin-top: -10px;
     position: sticky;
     top: 0;
     z-index: 3;
@@ -84,7 +83,6 @@ nav {
     width: 50%;
     display: flex;
     flex-direction: row;
-    /* justify-content: center; */
     align-items: center;
 
 }
@@ -93,8 +91,6 @@ nav {
 .searchForm {
     width: 90%;
     display: flex;
-    /* justify-content: space-evenly; */
-
 }
 
 .searchForm input[type=text] {
@@ -133,7 +129,6 @@ nav {
 
 .mealResultSection {
     width: 80%;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -145,12 +140,11 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding-left: 5px;
-    padding-right: 5px;
+    padding-right: 100px;
     box-sizing: border-box;
     font-weight: bolder;
     height: 40px;
     width: 100%;
-    border: 1px solid black;
 }
 
 .searchText {
@@ -175,7 +169,7 @@ nav {
 }
 
 .mealThumb {
-    height: 80%;
+    height: 100%;
     width: 100%;
     margin: 0px;
     z-index: 1;
@@ -236,5 +230,65 @@ nav {
 
 .checked {
     color: red;
+
+}
+
+.totalMealsCounter {
+    font-size: large;
+    display: flex;
+    align-items: center;
+
+}
+
+#favoriteMealsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
+.favMealCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    margin: 5px;
+}
+
+.mealThumbContainer {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 30px;
+}
+
+.mealDescContainer {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 5px;
+}
+
+.mealDescContainer p {
+    display: inline-block;
+    height: 150px;
+    margin: 0;
+    overflow: hidden;
+}
+
+.mealDescContainer button {
+    background: linear-gradient(to bottom right, #d4145e, #fb613b);
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: large;
+    transition: 0.3s ease-in-out;
+}
+
+.mealDescContainer button:hover {
+    box-shadow: -3px 4px 7px 4px rgba(69, 67, 67, 0.5);
 
 }
