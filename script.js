@@ -1,4 +1,5 @@
 let favoriteList;
+let currentMeal;
 
 
 const searchTextEl = document.querySelector('.searchText');
@@ -54,6 +55,7 @@ function getMealData(refrenceText) {
                     createMealCard(meal)
                 });
             } else {
+                resultCountEl.textContent = 0;
             }
         })
 }
@@ -64,6 +66,10 @@ function createMealCard(mealData) {
     let mealThumbEl = document.createElement('img');
     mealThumbEl.setAttribute('src', `${mealData.strMealThumb}`);
     mealThumbEl.classList.add('mealThumb');
+    mealThumbEl.addEventListener('click', () => {
+        currentMeal = mealData;
+        window.location.href = '/mealDetail.html';
+    })
     let mealDescEl = document.createElement('div');
     mealDescEl.classList.add('mealDesc');
 
@@ -108,6 +114,7 @@ window.addEventListener('beforeunload', updateLocalStorage);
 function updateLocalStorage() {
     localStorage.clear();
     localStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+    localStorage.setItem('currentMeal', JSON.stringify(currentMeal));
 }
 
 
