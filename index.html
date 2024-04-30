@@ -7,6 +7,8 @@
     <title>myMeal App</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <body>
@@ -16,12 +18,22 @@
             <div class="branding">
                 <img src="utilities/newLogo.png" alt="">
             </div>
+            <a href="#navTabs"><span class="material-symbols-outlined hamburger" style="font-size: 45px;">
+                    menu
+                </span></a>
             <div class="tabContainer">
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="myFavorite.html">My Favorite</a></li>
                 </ul>
             </div>
+
+        </div>
+        <div id="navTabs" style="display: none;">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="myFavorite.html">My Favorite</a></li>
+            </ul>
         </div>
         <div class="searchFormContainer">
             <form action="" class="searchForm">
@@ -29,6 +41,7 @@
                 <input type="button" value="Find it!">
             </form>
         </div>
+
     </nav>
     <section id="home" class="mealResultSection">
         <div id="searchResultDesc">
@@ -36,7 +49,7 @@
             <p>Meals : <span class="resultCount"></span></p>
         </div>
         <div id="mealCardContainer">
-
+            <p style="font-style: italic; text-align: center;"></p>
         </div>
     </section>
 

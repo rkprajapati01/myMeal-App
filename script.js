@@ -1,50 +1,68 @@
+// Variable Declaration Area
 let favoriteList;
 let currentMeal;
 
-
+// DOM link Area
 const searchTextEl = document.querySelector('.searchText');
 const resultCountEl = document.querySelector('.resultCount');
 const inputElement = document.getElementById('mealNameInput');
 const mealCardContainerEl = document.getElementById('mealCardContainer');
+const hamburgerEl = document.querySelector('.hamburger');
+const navTabsEl = document.getElementById('navTabs');
 
-const debounced = debounce(getResponse, 1000);
-document.addEventListener('DOMContentLoaded', debounced);
-inputElement.addEventListener('input', debounced);
+// Event Listners Area
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 1040) {
+        navTabsEl.style.display = 'none';
+    }
+});
 
-favoriteList = JSON.parse(localStorage.getItem('favoriteList'));
-if (!favoriteList) {
-    favoriteList = [];
-}
+window.addEventListener('beforeunload', updateLocalStorage);
+document.addEventListener('DOMContentLoaded', () => {
+    renderFavMealFromLocalStorage();
+    getResponse();
+});
+inputElement.addEventListener('input', () => {
+    let timer1;
+    clearTimeout(timer1);
+    timer1 = setTimeout(getResponse, 1000);
+});
 
+hamburgerEl.addEventListener('click', () => {
+    if (navTabsEl.style.display === "flex") {
+        navTabsEl.style.display = 'none';
+    } else {
+        navTabsEl.style.display = 'flex';
+    }
+})
 
-
-function debounce(fn, delay) {
-    let timer;
-    return (...arg) => {
-        clearTimeout(timer);
-
-        timer = setTimeout(() => {
-            fn(...arg);
-        }, delay);
+// fetching saved favorite meals detail from local storage
+function renderFavMealFromLocalStorage() {
+    let tempList = localStorage.getItem('favoriteList');
+    if (tempList !== undefined && tempList !== 'undefined') {
+        favoriteList = JSON.parse(tempList);
+    } else {
+        favoriteList = [];
     }
 }
-
-function getResponse(event) {
+// Calling fetchMealData as per text entered into Input
+function getResponse() {
     let value = inputElement.value;
     mealCardContainerEl.textContent = "";
     searchTextEl.textContent = value;
     if (value !== "") {
-        getMealData(value);
+        fetchMealData(value);
     } else {
         resultCountEl.textContent = 0;
     }
 }
 
-function getMealData(refrenceText) {
+function fetchMealData(refrenceText) {
     let mealData = fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${refrenceText}`);
     mealData.then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            mealCardContainerEl.innerHTML = `<p style="font-style: italic; text-align: center;">Slow Internet Connection, Unable to get the data from API</p>`;
+
         }
         return response.json();
     })
@@ -56,7 +74,10 @@ function getMealData(refrenceText) {
                 });
             } else {
                 resultCountEl.textContent = 0;
+                mealCardContainerEl.innerHTML = `<p style="font-style: italic; text-align: center;">No Meals Found</p>`;
             }
+        }).catch(err => {
+            mealCardContainerEl.innerHTML = `<p style="font-style: italic; text-align: center;">${err}</p>`;
         })
 }
 
@@ -66,6 +87,10 @@ function createMealCard(mealData) {
     let mealThumbEl = document.createElement('img');
     mealThumbEl.setAttribute('src', `${mealData.strMealThumb}`);
     mealThumbEl.classList.add('mealThumb');
+    mealThumbEl.classList.add('smallHeight');
+
+
+    // Event listner for opening meal Detail page
     mealThumbEl.addEventListener('click', () => {
         currentMeal = mealData;
         window.location.href = '/mealDetail.html';
@@ -90,6 +115,8 @@ function createFavButton(mealData) {
     heartIconEl.textContent = 'favorite';
     let favInputEl = document.createElement('input');
     favInputEl.setAttribute('type', 'checkbox');
+
+    // checking already present meals in favorite list
     if (favoriteList.some((meal) => meal.idMeal == mealData.idMeal)) {
         favInputEl.checked = true;
         heartIconEl.style.color = 'red';
@@ -97,7 +124,7 @@ function createFavButton(mealData) {
     }
 
     favoriteButtonContainerEl.append(favInputEl, heartIconEl);
-
+    // adding meals into favorite list
     favInputEl.addEventListener('change', (event) => {
         if (event.target.checked) {
             heartIconEl.style.color = 'red';
@@ -109,8 +136,8 @@ function createFavButton(mealData) {
     return favoriteButtonContainerEl;
 }
 
-window.addEventListener('beforeunload', updateLocalStorage);
 
+// function for storing favorite list and currently selected meal before reloding the page
 function updateLocalStorage() {
     localStorage.clear();
     localStorage.setItem('favoriteList', JSON.stringify(favoriteList));
