@@ -68,7 +68,7 @@ function createFavMealCard(meal) {
     // Event listner for opening meal Detail page
     mealThumbContainerEl.addEventListener('click', () => {
         currentMeal = meal;
-        window.location.href = '/mealDetail.html';
+        window.location.href = './mealDetail.html';
     })
 
     let mealDescEl = document.createElement('div');

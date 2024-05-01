@@ -39,7 +39,7 @@ hamburgerEl.addEventListener('click', () => {
 // fetching saved favorite meals detail from local storage
 function renderFavMealFromLocalStorage() {
     let tempList = localStorage.getItem('favoriteList');
-    if (tempList !== undefined && tempList !== 'undefined') {
+    if (tempList !== undefined && tempList !== 'undefined' && tempList !== null) {
         favoriteList = JSON.parse(tempList);
     } else {
         favoriteList = [];
@@ -76,9 +76,10 @@ function fetchMealData(refrenceText) {
                 resultCountEl.textContent = 0;
                 mealCardContainerEl.innerHTML = `<p style="font-style: italic; text-align: center;">No Meals Found</p>`;
             }
-        }).catch(err => {
-            mealCardContainerEl.innerHTML = `<p style="font-style: italic; text-align: center;">${err}</p>`;
         })
+    // .catch(err => {
+    //     mealCardContainerEl.innerHTML = `<p style="font-style: italic; text-align: center;">${err}</p>`;
+    // })
 }
 
 function createMealCard(mealData) {
@@ -93,7 +94,7 @@ function createMealCard(mealData) {
     // Event listner for opening meal Detail page
     mealThumbEl.addEventListener('click', () => {
         currentMeal = mealData;
-        window.location.href = '/mealDetail.html';
+        window.location.href = './mealDetail.html';
     })
     let mealDescEl = document.createElement('div');
     mealDescEl.classList.add('mealDesc');

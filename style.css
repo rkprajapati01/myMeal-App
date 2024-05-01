@@ -6,7 +6,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url(/utilities/bg.jpg);
+    background-image: url(./utilities/bg.jpg);
     background-size: cover;
     background-attachment: fixed;
     margin: 0;
