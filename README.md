@@ -49,4 +49,15 @@ A simple meal app built using vanilla HTML, CSS and JavaScript to store and sear
 5. Create a pull request.
 
 ## Screenshot
-![Home Page](../utilities/home.png)
+
+### Home Page
+
+![Home Page](utilities/home.png)
+
+### My Favorite
+
+![Home Page](utilities/myFavorite.png)
+
+### Meal Page
+
+![Home Page](utilities/detail.png)
