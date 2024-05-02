@@ -2,6 +2,8 @@
 
 A simple meal app built using vanilla HTML, CSS and JavaScript to store and search for meals from mealDB API.
 
+Go to hosted page from here [myMeal App](https://rkprajapati01.github.io/myMeal-App/)
+
 ## Table of Contents
 - [Features](#features)
 - [Technologies Used](#technologies-used)
