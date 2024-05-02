@@ -22,11 +22,21 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFavMealFromLocalStorage();
     getResponse();
 });
-inputElement.addEventListener('input', () => {
-    let timer1;
-    clearTimeout(timer1);
-    timer1 = setTimeout(getResponse, 1000);
-});
+const debouncedFun = debounce(getResponse, 1000);
+
+inputElement.addEventListener('input', debouncedFun);
+
+function debounce(func, delay) {
+    let timeout = null
+    return (...args) => {
+        if (timeout) clearTimeout(timeout)
+
+        timeout = setTimeout(() => {
+            func(...args)
+            timeout = null
+        }, delay)
+    }
+}
 
 hamburgerEl.addEventListener('click', () => {
     if (navTabsEl.style.display === "flex") {
